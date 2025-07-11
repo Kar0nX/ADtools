@@ -1,11 +1,20 @@
-
 # 🛠️ ADTools Installer
 
 A powerful Bash script that automates the download and setup of **essential tools for Active Directory penetration testing**. Built for red teamers, pentesters, and security enthusiasts.  
 
-⚠️ Important: Most tools must be compiled manually after cloning. The script does not handle compilation. Be sure to follow each tool’s README and setup instructions after installation.
-
 Created as part of my learning journey while preparing for PNPT and OSCP certifications.
+
+---
+
+## 🆕 What’s New (July 2025)
+
+- ✅ Fully interactive **main menu**: Choose to update dependencies, install all tools, or pick them individually.
+- ✅ **Automatic installation of dependencies**: Python venv, Git, Ruby, Cargo, Go, Rust, etc.
+- ✅ **Smarter installations**: The script sets up Python virtual environments, installs requirements, compiles tools with `make`, installs `evil-winrm` via Ruby, and compiles Rust projects.
+- ✅ **Safe re-runs**: Already cloned tools are skipped, making the script idempotent and safe to run multiple times.
+- ✅ **Improved UX**: Clean, colorized output and structured logging for better visibility.
+
+⚠️ Important: Some tools must still be compiled or configured manually. Be sure to follow each tool’s README and setup instructions after installation.
 
 ---
 
@@ -13,7 +22,9 @@ Created as part of my learning journey while preparing for PNPT and OSCP certifi
 
 - ✅ Root privilege check
 - ✅ Installs tools into `/opt/adtools`
-- ✅ Option to install all tools or select individually
+- ✅ Option to install all tools or select individually via menu
+- ✅ Automatic installation of dependencies (Python, Git, Ruby, Rust, etc.)
+- ✅ Smart setup for supported tools (e.g., Python venv, `make`, `cargo`, etc.)
 - ✅ Clean and colorized terminal output
 
 ---
@@ -79,8 +90,9 @@ sudo ./adtools.sh
 
 You will be prompted to:
 
+- Install only dependencies (helpful for first-time setup)  
 - Install all tools  
-- Or choose tools manually from a numbered list
+- Choose tools manually from a numbered list  
 
 All tools will be cloned into:
 ```
@@ -96,9 +108,10 @@ All tools will be cloned into:
 ├── ...
 ```
 
+
 📍 Notes:  
 The script is idempotent—you can run it again to update or add new tools.  
-Most tools require additional setup or dependencies—check their individual README files after installation.
+Some tools still require additional setup (e.g., Visual Studio for C# projects). Always check the tool's individual documentation after installation.
 
 ---
 
@@ -107,3 +120,4 @@ Made in Poland 🇵🇱 by @Kar0n
 
 📜 License  
 This script uses public tools under their respective licenses. The script itself is provided under the MIT License.
+
