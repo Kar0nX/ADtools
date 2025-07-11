@@ -1,6 +1,7 @@
 # 🛠️ ADTools Installer
 
 A powerful Bash script that automates the download and setup of **essential tools for Active Directory penetration testing**. Built for red teamers, pentesters, and security enthusiasts.
+⚠️ Important: Most tools must be compiled manually after cloning. The script does not handle compilation (with the exception of Kerbrute). Be sure to follow each tool’s README and setup instructions after installation.
 Created as part of my learning journey while preparing for PNPT and OSCP certifications.
 
 ---
@@ -94,10 +95,6 @@ All tools will be cloned into:
 📍 Notes
 
 The script is idempotent—you can run it again to update or add new tools.
-
-Compilation is only done for a few tools (e.g., kerbrute).
-
-Some tools require additional setup or dependencies—check their individual README files after installation.
 
 🇵🇱 Author
 Made in Poland 🇵🇱 by @Kar0n
