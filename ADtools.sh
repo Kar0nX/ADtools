@@ -1,16 +1,19 @@
 #!/bin/bash
 set -e
 
+# === Colors ===
 CYAN='\033[1;36m'
 WHITE='\033[1;37m'
 NC='\033[0m'
 
+# === Root Check ===
 if [[ $EUID -ne 0 ]]; then
-   echo -e "${CYAN}[!] Please run this script as root (sudo).${NC}" 
+   echo -e "${CYAN}[!] Please run this script as root (sudo).${NC}"
    exit 1
 fi
 
-echo -e "${CYAN}[*]              _____  ________   __                .__          ${NC}" 
+# === Banner ===
+echo -e "${CYAN}[*]              _____  ________   __                .__          ${NC}"
 echo -e "${CYAN}[*]             /  _  \\ \\______ \\_/  |_  ____   ____ |  |   ______${NC}"
 echo -e "${CYAN}[*]            /  /_\\  \\ |    |  \\   __\\/  _ \\ /  _ \\|  |  /  ___/${NC}"
 echo -e "${CYAN}[*]           /    |    \\|    \`   \\  | (  <_> |  <_> )  |__\\___ \\ ${NC}"
@@ -18,13 +21,9 @@ echo -e "${CYAN}[*]           \\____|__  /_______  /__|  \\____/ \\____/|____/__
 echo -e "${CYAN}[*]                   \\/        \\/                             \\/ ${NC}"
 echo -e "${CYAN}[*]         ${WHITE}Essential toolkit for Active Directory penetration testing${CYAN}         ${NC}"
 echo -e "${CYAN}[*]                          ${WHITE}Made in Poland 🇵🇱 @Kar0n${NC}"
-
 printf "${WHITE}%-80s${NC}\n" " "
-echo -e "${CYAN}[+] Creating working directory: /opt/adtools${NC}"
-mkdir -p /opt/adtools
-cd /opt/adtools
 
-# === TOOL LIST ===
+# === Tool Repositories & Names ===
 TOOLS=(
   "https://github.com/SpecterOps/BloodHound.git"
   "https://github.com/SpecterOps/SharpHound.git"
@@ -72,7 +71,7 @@ TOOL_NAMES=(
   "Mimikatz"
   "Rubeus"
   "Kerbrute"
-  "Inveigh (PowerShell)"
+  "Inveigh"
   "Responder"
   "Ligolo-ng"
   "noPac"
@@ -85,12 +84,12 @@ TOOL_NAMES=(
   "LAPSToolkit"
   "DomainPasswordSpray"
   "SharpView"
-  "PEASS-ng (winPEAS)"
+  "PEASS-ng"
   "Seatbelt"
   "PingCastle"
   "adidnsdump"
   "gpp-decrypt"
-  "CVE-2021-1675 PoC"
+  "CVE-2021-1675"
   "PetitPotam"
   "pyWhisker"
   "ADRecon"
@@ -101,37 +100,155 @@ TOOL_NAMES=(
   "Username Anarchy"
 )
 
-# === INSTALL FUNCTION ===
-install_tool() {
-    index=$1
-    url="${TOOLS[$index]}"
-    echo -e "${CYAN}[+] Cloning: ${TOOL_NAMES[$index]}${NC}"
-    git clone "$url"
+# === Create Tools Directory ===
+TOOLS_DIR="/opt/adtools"
+echo -e "${CYAN}[+] Creating working directory: $TOOLS_DIR${NC}"
+mkdir -p "$TOOLS_DIR"
+cd "$TOOLS_DIR"
+
+# === Functions ===
+
+update_and_install_dependencies() {
+  echo -e "${CYAN}[+] Updating package list...${NC}"
+  apt update -y
+
+  packages=(
+    python3-venv
+    git
+    make
+    gcc
+    build-essential
+    curl
+    ruby
+    gem
+    golang-go
+  )
+
+  echo -e "${CYAN}[+] Installing required packages...${NC}"
+  for pkg in "${packages[@]}"; do
+    if ! dpkg -s "$pkg" &> /dev/null; then
+      echo -e "${CYAN}[-] Installing $pkg...${NC}"
+      apt install -y "$pkg"
+    else
+      echo -e "${CYAN}[-] $pkg is already installed.${NC}"
+    fi
+  done
+
+  echo -e "${CYAN}[+] Checking for cargo...${NC}"
+  if ! command -v cargo &> /dev/null; then
+    echo -e "${CYAN}[-] Attempting to install cargo via apt...${NC}"
+    if ! apt install -y cargo; then
+      echo -e "${CYAN}[!] Apt failed. Installing Rust via rustup...${NC}"
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      source "$HOME/.cargo/env"
+    fi
+  else
+    echo -e "${CYAN}[-] Cargo is already installed.${NC}"
+  fi
+
+  echo -e "${CYAN}[✓] System updated and dependencies installed.${NC}"
 }
 
-# === ASK USER ===
-printf "${WHITE}%-80s${NC}\n" " "
-read -p "$(echo -e "${CYAN}[?] Do you want to install ALL tools? (y/n): ${NC}")" install_all
-printf "${WHITE}%-80s${NC}\n" " "
-if [[ "$install_all" =~ ^[Yy]$ ]]; then
-    for i in "${!TOOLS[@]}"; do
-        install_tool $i
-    done
-else
-    echo -e "${CYAN}[?] Select tools to install by number (e.g. 1 5 9):${NC}"
-    printf "${WHITE}%-80s${NC}\n" " "
-    for i in "${!TOOLS[@]}"; do
+install_tool_full() {
+  local index=$1
+  local url="${TOOLS[$index]}"
+  local name="${TOOL_NAMES[$index]}"
+  local folder=$(basename "$url" .git)
+
+  echo -e "${CYAN}[+] Installing: $name${NC}"
+  if [[ -d "$folder" ]]; then
+    echo -e "${CYAN}[-] $folder already cloned, skipping...${NC}"
+  else
+    git clone --depth 1 "$url"
+  fi
+  cd "$folder" || return
+
+  case "$name" in
+    "Impacket toolkit"|"BloodHound.py"|"enum4linux-ng"|"Responder"|"smbmap")
+      echo -e "${CYAN}[-] Setting up Python virtual environment...${NC}"
+      python3 -m venv venv
+      source venv/bin/activate
+      if [[ -f requirements.txt ]]; then
+        pip install --upgrade pip
+        pip install -r requirements.txt
+      else
+        pip install .
+      fi
+      deactivate
+      ;;
+    "evil-winrm")
+      gem install evil-winrm
+      ;;
+    "Ligolo-ng"|"ligolo-ng")
+      make
+      ;;
+    "windapsearch")
+      python3 -m venv venv
+      source venv/bin/activate
+      pip install ldap3
+      deactivate
+      ;;
+    "PEASS-ng")
+      cd winPEAS && make || echo "winPEAS not compiled"
+      ;;
+    "RustHound CE")
+      cargo build --release
+      ;;
+    "Username Anarchy")
+      chmod +x username-anarchy
+      ;;
+    *)
+      echo -e "${CYAN}[-] No special install steps required for $name${NC}"
+      ;;
+  esac
+
+  cd ..
+}
+
+# === Main Menu Loop ===
+while true; do
+  printf "${WHITE}%-80s${NC}\n" " "
+  echo -e "${WHITE}What do you want to do?${NC}"
+  echo -e "${CYAN}1) Update system & install requirements (Python, Cargo, Git, etc.)${NC}"
+  echo -e "${CYAN}2) Install ALL tools${NC}"
+  echo -e "${CYAN}3) Select tools manually${NC}"
+  echo -e "${CYAN}4) Exit${NC}"
+  printf "${WHITE}%-80s${NC}\n" " "
+  read -p "$(echo -e "${CYAN}Select an option [1-4]: ${NC}")" menu_choice
+  printf "${WHITE}%-80s${NC}\n" " "
+
+  case "$menu_choice" in
+    1)
+      update_and_install_dependencies
+      ;;
+    2)
+      for i in "${!TOOLS[@]}"; do
+        install_tool_full "$i"
+      done
+      echo -e "${CYAN}[✓] All tools installed.${NC}"
+      ;;
+    3)
+      echo -e "${CYAN}[?] Select tools to install by number (e.g. 1 5 9):${NC}"
+      for i in "${!TOOLS[@]}"; do
         printf "${CYAN}%2d) %s${NC}\n" $((i+1)) "${TOOL_NAMES[$i]}"
-    done
-    read -p "Your choice: " -a choices
+      done
+      read -p "Your choice: " -a choices
 
-    for choice in "${choices[@]}"; do
+      for choice in "${choices[@]}"; do
         if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#TOOLS[@]} )); then
-            install_tool $((choice-1))
+          install_tool_full $((choice-1))
         else
-            echo -e "${CYAN}[!] Invalid option: $choice${NC}"
+          echo -e "${CYAN}[!] Invalid option: $choice${NC}"
         fi
-    done
-fi
-
-echo -e "${CYAN}[✓] Installation complete. Tools saved to: /opt/adtools/${NC}"
+      done
+      echo -e "${CYAN}[✓] Selected tools installed.${NC}"
+      ;;
+    4)
+      echo -e "${CYAN}[!] Exiting...${NC}"
+      exit 0
+      ;;
+    *)
+      echo -e "${CYAN}[!] Invalid option. Please try again.${NC}"
+      ;;
+  esac
+done
