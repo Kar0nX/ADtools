@@ -1,7 +1,8 @@
+
 # 🛠️ ADTools Installer
 
-A powerful Bash script that automates the download and setup of **essential tools for Active Directory penetration testing**. Built for red teamers, pentesters, and security enthusiasts.
-⚠️ Important: Most tools must be compiled manually after cloning. The script does not handle compilation (with the exception of Kerbrute). Be sure to follow each tool’s README and setup instructions after installation.
+A powerful Bash script that automates the download and setup of **essential tools for Active Directory penetration testing**. Built for red teamers, pentesters, and security enthusiasts.  
+⚠️ Important: Most tools must be compiled manually after cloning. The script does not handle compilation (with the exception of Kerbrute). Be sure to follow each tool’s README and setup instructions after installation.  
 Created as part of my learning journey while preparing for PNPT and OSCP certifications.
 
 ---
@@ -11,7 +12,6 @@ Created as part of my learning journey while preparing for PNPT and OSCP certifi
 - ✅ Root privilege check
 - ✅ Installs tools into `/opt/adtools`
 - ✅ Option to install all tools or select individually
-- ✅ Auto-compilation for certain tools (e.g. Kerbrute)
 - ✅ Clean and colorized terminal output
 
 ---
@@ -75,16 +75,18 @@ The script clones the following repositories:
 chmod +x adtools.sh
 sudo ./adtools.sh
 ```
+
 You will be prompted to:
 
-- Install all tools
+- Install all tools  
 - Or choose tools manually from a numbered list
 
 All tools will be cloned into:
 ```
 /opt/adtools/
 ```
-📁 Example Directory Structure
+
+📁 Example Directory Structure:
 ```
 /opt/adtools/
 ├── BloodHound
@@ -92,12 +94,15 @@ All tools will be cloned into:
 ├── Impacket
 ├── ...
 ```
-📍 Notes
 
-The script is idempotent—you can run it again to update or add new tools.
+📍 Notes:  
+The script is idempotent—you can run it again to update or add new tools.  
+Most tools require additional setup or dependencies—check their individual README files after installation.
 
-🇵🇱 Author
+---
+
+🇵🇱 Author  
 Made in Poland 🇵🇱 by @Kar0n
 
-📜 License
+📜 License  
 This script uses public tools under their respective licenses. The script itself is provided under the MIT License.
