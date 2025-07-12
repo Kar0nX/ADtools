@@ -4,6 +4,8 @@ A powerful Bash script that automates the download and setup of **essential tool
 
 Created as part of my learning journey while preparing for PNPT and OSCP certifications.
 
+<img width="1058" height="598" alt="image" src="https://github.com/user-attachments/assets/9ea1e6c1-d8c0-46ad-8f71-445fe1a36f75" />
+
 ---
 
 ## 🆕 What’s New (July 2025)
@@ -17,8 +19,6 @@ Created as part of my learning journey while preparing for PNPT and OSCP certifi
 ⚠️ Important: Some tools must still be compiled or configured manually. Be sure to follow each tool’s README and setup instructions after installation.
 
 ---
-<img width="579" height="299" alt="image" src="https://github.com/user-attachments/assets/9ea1e6c1-d8c0-46ad-8f71-445fe1a36f75" />
-
 
 ## 📌 Features
 
