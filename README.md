@@ -72,7 +72,9 @@ The script clones the following repositories:
 | 33 | LDAPRelayScan          | Identifies vulnerable LDAP relays      |
 | 34 | RustHound CE           | BloodHound collector in Rust           |
 | 35 | Username Anarchy       | Username enumeration wordlists         |
-
+| 36 | adPEAS                 | Active Directory enumeration tool      |
+| 37 | nc.exe                 | Netcat – network utility for Windows   |
+| 38 | WES-NG                 | Windows Exploit Suggester – Next Gen    |
 ---
 
 ## 🚀 Usage
