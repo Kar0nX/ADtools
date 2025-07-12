@@ -60,6 +60,9 @@ TOOLS=(
   "https://github.com/zyn3rgy/LDAPRelayScan.git"
   "https://github.com/g0h4n/RustHound-CE.git"
   "https://github.com/urbanadventurer/username-anarchy.git"
+  "https://github.com/61106960/adPEAS.git"
+  "https://github.com/int0x33/nc.exe.git"
+  "https://github.com/bitsadmin/wesng.git"
 )
 
 TOOL_NAMES=(
@@ -98,6 +101,9 @@ TOOL_NAMES=(
   "LDAPRelayScan"
   "RustHound CE"
   "Username Anarchy"
+  "adPEAS"
+  "nc.exe"
+  "WES-NG"
 )
 
 # === Create Tools Directory ===
@@ -196,6 +202,14 @@ install_tool_full() {
       ;;
     "Username Anarchy")
       chmod +x username-anarchy
+      ;;
+    "WES-NG")
+      python3 -m venv venv
+      source venv/bin/activate
+      pip install --upgrade pip
+      pip install wesng
+      python3 wes.py --update || echo -e "${CYAN}[!] Failed to update WES-NG database${NC}"
+      deactivate
       ;;
     *)
       echo -e "${CYAN}[-] No special install steps required for $name${NC}"
