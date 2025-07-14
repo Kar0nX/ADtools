@@ -30,7 +30,7 @@ TOOLS=(
   "https://github.com/dirkjanm/BloodHound.py.git"
   "https://github.com/SecureAuthCorp/impacket.git"
   "https://github.com/CravateRouge/bloodyAD.git"
-  "https://github.com/gentilkiwi/mimikatz.git"
+  "https://github.com/ParrotSec/mimikatz.git"
   "https://github.com/GhostPack/Rubeus.git"
   "https://github.com/ropnop/kerbrute.git"
   "https://github.com/Kevin-Robertson/Inveigh.git"
@@ -63,6 +63,7 @@ TOOLS=(
   "https://github.com/61106960/adPEAS.git"
   "https://github.com/int0x33/nc.exe.git"
   "https://github.com/bitsadmin/wesng.git"
+  "https://github.com/dievus/printspoofer.git"
 )
 
 TOOL_NAMES=(
@@ -104,6 +105,7 @@ TOOL_NAMES=(
   "adPEAS"
   "nc.exe"
   "WES-NG"
+  "PrintSpoofer"
 )
 
 # === Create Tools Directory ===
