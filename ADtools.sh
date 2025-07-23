@@ -67,8 +67,8 @@ TOOLS=(
   "https://github.com/sqlmapproject/sqlmap.git"
 )
 
-TOOL_NAMES=(
-  "BloodHound (GUI)"
+TOOL_FOLDERS=(
+  "BloodHound"
   "SharpHound"
   "BloodHound.py"
   "Impacket toolkit"
@@ -111,7 +111,7 @@ TOOL_NAMES=(
 )
 
 # === Create Tools Directory ===
-TOOLS_DIR="/opt/adtools"
+TOOLS_DIR="/opt/ADtools"
 echo -e "${CYAN}[+] Creating working directory: $TOOLS_DIR${NC}"
 mkdir -p "$TOOLS_DIR"
 cd "$TOOLS_DIR"
@@ -163,7 +163,7 @@ install_tool_full() {
   local index=$1
   local url="${TOOLS[$index]}"
   local name="${TOOL_NAMES[$index]}"
-  local folder="${name// /_}"
+  local folder="${TOOL_FOLDERS[$index]}"
 
   echo -e "${CYAN}[+] Installing: $name${NC}"
   if [[ -d "$folder" ]]; then
@@ -252,7 +252,7 @@ while true; do
     3)
       echo -e "${CYAN}[?] Select tools to install by number (e.g. 1 5 9):${NC}"
       for i in "${!TOOLS[@]}"; do
-        printf "${CYAN}%2d) %s${NC}\n" $((i+1)) "${TOOL_NAMES[$i]}"
+        printf "${CYAN}%2d) %s${NC}\n" $((i+1)) "${TOOL_FOLDERS[$i]}"
       done
       read -p "Your choice: " -a choices
 
