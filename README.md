@@ -8,7 +8,7 @@ Created as part of my learning journey while preparing for PNPT and OSCP certifi
 
 ---
 
-## 🆕 What’s New (July 2025)
+## 🆕 What’s New
 
 - ✅ Fully interactive **main menu**: Choose to update dependencies, install all tools, or pick them individually.
 - ✅ **Automatic installation of dependencies**: Python venv, Git, Ruby, Cargo, Go, Rust, etc.
@@ -16,7 +16,15 @@ Created as part of my learning journey while preparing for PNPT and OSCP certifi
 - ✅ **Safe re-runs**: Already cloned tools are skipped, making the script idempotent and safe to run multiple times.
 - ✅ **Improved UX**: Clean, colorized output and structured logging for better visibility.
 
-⚠️ Important: Some tools must still be compiled or configured manually. Be sure to follow each tool’s README and setup instructions after installation.
+### 🛠️ Fixes & Improvements
+
+- 🐛 Fixed incorrect installation paths by assigning unique directory names for each tool (e.g., `sqlmap_git`, `responder_git`)
+- ➕ Added tool `PrintSpoofer`, `sqlmap` to full installation list
+- 🧠 Improved tool detection logic – re-running the script no longer skips partially installed tools
+
+
+⚠️ Note: Some tools may require **manual compilation or configuration** after cloning.  
+Please refer to each tool's README or usage instructions for setup details.
 
 ---
 
@@ -74,14 +82,16 @@ The script clones the following repositories:
 | 35 | Username Anarchy       | Username enumeration wordlists         |
 | 36 | adPEAS                 | Active Directory enumeration tool      |
 | 37 | nc.exe                 | Netcat – network utility for Windows   |
-| 38 | WES-NG                 | Windows Exploit Suggester – Next Gen    |
+| 38 | WES-NG                 | Windows Exploit Suggester – Next Gen   | 
+| 39 | PrintSpoofer           | Privilege escalation via SeImpersonate |
+| 40 | SQLMap                 | Automated SQL injection exploitation   |
 ---
 
 ## 🚀 Usage
 
 ### 🔧 Prerequisites
 
-- Must be run as **root** (`sudo` required)
+- Requires **root privileges** (`sudo`) to install tools into `/opt`
 
 ---
 
@@ -106,10 +116,13 @@ All tools will be cloned into:
 📁 Example Directory Structure:
 ```
 /opt/adtools/
-├── BloodHound
-├── SharpHound
-├── Impacket
-├── ...
+├── bloodhound_gui
+├── sharphound
+├── impacket
+├── wesng_git
+├── responder_git
+├── sqlmap_git
+└── ...
 ```
 
 
@@ -119,9 +132,13 @@ Some tools still require additional setup (e.g., Visual Studio for C# projects).
 
 ---
 
-🇵🇱 Author  
-Made in Poland 🇵🇱 by @Kar0n
 
-📜 License  
-This script uses public tools under their respective licenses. The script itself is provided under the MIT License.
+## 🧑‍💻 Author
+
+🇵🇱 Made in Poland by [@Kar0n](https://github.com/Kar0n)
+
+## 📜 License
+
+This script is released under the [MIT License](LICENSE).  
+All included tools remain under their respective authors’ licenses.
 
