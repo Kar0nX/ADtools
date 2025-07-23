@@ -64,6 +64,7 @@ TOOLS=(
   "https://github.com/int0x33/nc.exe.git"
   "https://github.com/bitsadmin/wesng.git"
   "https://github.com/dievus/printspoofer.git"
+  "https://github.com/sqlmapproject/sqlmap.git"
 )
 
 TOOL_NAMES=(
@@ -106,6 +107,7 @@ TOOL_NAMES=(
   "nc.exe"
   "WES-NG"
   "PrintSpoofer"
+  "SQLMap"
 )
 
 # === Create Tools Directory ===
