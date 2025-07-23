@@ -163,13 +163,17 @@ install_tool_full() {
   local index=$1
   local url="${TOOLS[$index]}"
   local name="${TOOL_NAMES[$index]}"
-  local folder=$(basename "$url" .git)
+  local folder="${name// /_}"
 
   echo -e "${CYAN}[+] Installing: $name${NC}"
   if [[ -d "$folder" ]]; then
-    echo -e "${CYAN}[-] $folder already cloned, skipping...${NC}"
+    echo -e "${CYAN}[-] $folder already exists. Pulling latest...${NC}"
+    cd "$folder" && git pull --rebase && cd ..
   else
-    git clone --depth 1 "$url"
+    if ! git clone --depth 1 "$url" "$folder"; then
+      echo -e "${CYAN}[!] Failed to clone $url ($name). Skipping.${NC}"
+      return
+    fi
   fi
   cd "$folder" || return
 
