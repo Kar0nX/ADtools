@@ -162,7 +162,7 @@ update_and_install_dependencies() {
 install_tool_full() {
   local index=$1
   local url="${TOOLS[$index]}"
-  local name="${TOOL_NAMES[$index]}"
+  local name="${TOOL_FOLDERS[$index]}"
   local folder="${TOOL_FOLDERS[$index]}"
 
   echo -e "${CYAN}[+] Installing: $name${NC}"
