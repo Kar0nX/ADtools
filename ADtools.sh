@@ -8,7 +8,7 @@ NC='\033[0m'
 
 # === Root Check ===
 if [[ $EUID -ne 0 ]]; then
-   echo -e "${CYAN}[!] Please run this script as root (sudo).${NC}"
+   echo -e "${CYAN}[!] Run this script as root (sudo).${NC}"
    exit 1
 fi
 
