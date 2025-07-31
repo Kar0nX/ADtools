@@ -32,7 +32,7 @@ TOOLS=(
   "https://github.com/CravateRouge/bloodyAD.git"
   "https://github.com/ParrotSec/mimikatz.git"
   "https://github.com/GhostPack/Rubeus.git"
-  "https://github.com/ropnop/kerbrute.git"
+  "https://github.com/TarlogicSecurity/kerbrute.git"
   "https://github.com/Kevin-Robertson/Inveigh.git"
   "https://github.com/lgandx/Responder.git"
   "https://github.com/nicocha30/ligolo-ng.git"
