@@ -194,9 +194,13 @@ install_tool_full() {
       gem install evil-winrm
       ;;
     "Kerbrute")
-      echo -e "${CYAN}[-] Building Kerbrute...${NC}"
-      make help
-      sudo make all
+      echo -e "${CYAN}[-] Cloning Kerbrute...${NC}"
+      git clone https://github.com/ropnop/kerbrute.git
+      cd kerbrute || { echo -e "${CYAN}[!] Failed to enter kerbrute directory.${NC}"; exit 1; }
+
+      echo -e "${CYAN}[-] Building Kerbrute (Linux only)...${NC}"
+      make linux
+      cd dist
       if [[ -f kerbrute_linux_amd64 ]]; then
         sudo mv kerbrute_linux_amd64 /usr/local/bin/kerbrute
         chmod +x /usr/local/bin/kerbrute
