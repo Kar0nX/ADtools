@@ -32,7 +32,7 @@ TOOLS=(
   "https://github.com/CravateRouge/bloodyAD.git"
   "https://github.com/ParrotSec/mimikatz.git"
   "https://github.com/GhostPack/Rubeus.git"
-  "https://github.com/TarlogicSecurity/kerbrute.git"
+  "https://github.com/ropnop/kerbrute.git"
   "https://github.com/Kevin-Robertson/Inveigh.git"
   "https://github.com/lgandx/Responder.git"
   "https://github.com/nicocha30/ligolo-ng.git"
@@ -192,6 +192,18 @@ install_tool_full() {
       ;;
     "evil-winrm")
       gem install evil-winrm
+      ;;
+    "Kerbrute")
+      echo -e "${CYAN}[-] Building Kerbrute...${NC}"
+      make help
+      sudo make all
+      if [[ -f kerbrute_linux_amd64 ]]; then
+        sudo mv kerbrute_linux_amd64 /usr/local/bin/kerbrute
+        chmod +x /usr/local/bin/kerbrute
+        echo -e "${CYAN}[✓] Kerbrute installed to /usr/local/bin/kerbrute${NC}"
+      else
+        echo -e "${CYAN}[!] Build failed or binary not found.${NC}"
+      fi
       ;;
     "Ligolo-ng"|"ligolo-ng")
       make
